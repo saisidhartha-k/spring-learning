@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin: 10px auto;
+        }
+        .card:hover {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        form {
+            width: 100%;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        form input[type="text"], form input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Management</h1>
+
+    <!-- Add Student Form -->
+    <div class="card">
+        <h2>Add Student</h2>
+        <div class="center-content">
+            <form th:action="@{/add}" th:object="${newStudent}" method="post">
+                <input type="text" th:field="*{name}" placeholder="Name" /><br />
+                <input type="number" th:field="*{score}" placeholder="Score" /><br />
+                <button type="submit">Add Student</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student List -->
+    <div class="card">
+        <h2>Student List</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.name}"></td>
+                <td>
+                    <form th:action="@{/update}" method="post">
+                        <input type="hidden" name="name" th:value="${student.name}" />
+                        <input type="number" name="score" th:value="${student.score}" />
+                        <button type="submit">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/delete}" method="post">
+                        <input type="hidden" name="name" th:value="${student.name}" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
