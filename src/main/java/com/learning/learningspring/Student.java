@@ -4,6 +4,7 @@ package com.learning.learningspring;
 public class Student {
     public String name;
     public int score;
+   // public int rollnumber;
     
 	public String getName() {
 		// TODO Auto-generated method stub

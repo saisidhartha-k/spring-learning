@@ -25,15 +25,14 @@ public class StudentController {
 
     @PostMapping("/add")
     public String addStudent(@ModelAttribute("newStudent") Student student,Model model,HttpServletRequest req) {
-
-    
-        
+     
         String name1 = req.getParameter("name");       
         student.name = name1;
         students.add(student);
         model.addAttribute("newStudent", new Student());
         model.addAttribute("students", students);
         sortList();
+        jdbcStudent.insertdata(student);
         return "students";
 
     }

@@ -5,99 +5,120 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
         }
         h1 {
             text-align: center;
             color: #333;
         }
-        .card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 10px 0;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            margin: 10px auto;
-        }
-        .card:hover {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .center-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-        form {
+        table {
             width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td form {
+            display: inline-block;
+            margin-right: 5px;
         }
         button {
-            display: block;
-            margin: 10px auto;
-            padding: 5px 10px;
+            padding: 6px 12px;
             background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #0056b3;
         }
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .card:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
         form input[type="text"], form input[type="number"] {
             width: 100%;
-            padding: 5px;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Student Management</h1>
+    <div class="container">
+        <h1>Student Management</h1>
 
-    <!-- Add Student Form -->
-    <div class="card">
-        <h2>Add Student</h2>
-        <div class="center-content">
+        <!-- Add Student Form -->
+        <div class="card">
+            <h2>Add Student</h2>
             <form th:action="@{/add}" th:object="${newStudent}" method="post">
                 <input type="text" th:field="*{name}" placeholder="Name" /><br />
                 <input type="number" th:field="*{score}" placeholder="Score" /><br />
                 <button type="submit">Add Student</button>
             </form>
         </div>
-    </div>
 
-    <!-- Student List -->
-    <div class="card">
-        <h2>Student List</h2>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Actions</th>
-            </tr>
-            <tr th:each="student : ${students}">
-                <td th:text="${student.name}"></td>
-                <td>
-                    <form th:action="@{/update}" method="post">
-                        <input type="hidden" name="name" th:value="${student.name}" />
-                        <input type="number" name="score" th:value="${student.score}" />
-                        <button type="submit">Edit</button>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/delete}" method="post">
-                        <input type="hidden" name="name" th:value="${student.name}" />
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
+        <!-- Student List -->
+        <div class="card">
+            <h2>Student List</h2>
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Actions</th>
+                </tr>
+                <tr th:each="student, studentStat : ${students}">
+                    <td th:text="${studentStat.count}"></td>
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.score}"></td>
+                    <td>
+                        <form th:action="@{/update}" method="post">
+                            <input type="hidden" name="name" th:value="${student.name}" />
+                            <input type="number" name="score" th:value="${student.score}" />
+                            <button class="edit-button" type="submit">Edit</button>
+                        </form>
+                        <form th:action="@{/delete}" method="post">
+                            <input type="hidden" name="name" th:value="${student.name}" />
+                            <button class="delete-button" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-
 </body>
 </html>
