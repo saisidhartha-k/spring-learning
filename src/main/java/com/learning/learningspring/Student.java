@@ -1,28 +1,31 @@
 package com.learning.learningspring;
 
+import org.springframework.stereotype.Component;
+
+ 
+
+import jakarta.validation.constraints.Min;
+
+import lombok.Data;
+
+ 
+
+@Data
+
+@Component
 
 public class Student {
-    public String name;
-    public int score;
-   // public int rollnumber;
-    
-	public String getName() {
-		// TODO Auto-generated method stub
-		return this.name;
-	}
 
-	public int getScore() {
-		// TODO Auto-generated method stub
-		return this.score;
-	}
+    private int id;
 
-	public void setScore(int score) {
-		// TODO Auto-generated method stub
-		this.score = score;
-	}
+    private int rank;
 
-   public String toString()
-   {
-	   return String.format(name + " " + score);
-   }
+    private String name;
+
+    @Min(value = 0)
+
+    private int score;
+
 }
+
+ 
